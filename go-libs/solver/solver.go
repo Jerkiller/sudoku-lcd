@@ -64,10 +64,10 @@ func (s *Solver) Run() string {
 	sudoku := <-s.Res
 	newSudoku := ApplyPossibleMoves(sudoku)
 	if !newSudoku.IsCorrect() {
-		fmt.Println("UNCORRECT")
+		// fmt.Println("UNCORRECT")
 		return s.Run()
 	} else if newSudoku.IsComplete() {
-		fmt.Println("WIN")
+		// fmt.Println("WIN")
 		s.Win <- newSudoku
 		return "WIN"
 	} else {
