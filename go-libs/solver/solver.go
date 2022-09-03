@@ -63,13 +63,13 @@ func ApplyPossibleMoves(sudoku types.Sudoku) types.Sudoku {
 func (s *Solver) Run() string {
 	sudoku := <-s.Res
 	newSudoku := ApplyPossibleMoves(sudoku)
-	if newSudoku.IsComplete() {
-		// fmt.Println("WIN")
+	if !newSudoku.IsCorrect() {
+		fmt.Println("UNCORRECT")
+		return s.Run()
+	} else if newSudoku.IsComplete() {
+		fmt.Println("WIN")
 		s.Win <- newSudoku
 		return "WIN"
-	} else if !newSudoku.IsCorrect() {
-		// fmt.Println("UNCORRECT")
-		return s.Run()
 	} else {
 		// fmt.Println("GUESS")
 		i, j := newSudoku.FindFirstEmptyCell()
