@@ -215,7 +215,7 @@ check_sudoku(Sudoku) ->
     false -> ok
   end,
   case is_complete(Sudoku) of
-    true -> io:fwrite("Sudoku completed!!!~n"), print_sudoku(Sudoku), exit(finishedSudoku);
+    true -> print_sudoku(Sudoku), exit(finishedSudoku); % io:fwrite("Sudoku completed!!!~n"), print_sudoku(Sudoku), exit(finishedSudoku);
     false -> ok
   end.
 
@@ -237,8 +237,8 @@ solve_all_sudoku_boards() ->
 start() -> solve_all_sudoku_boards().
 
 main(FileId) ->
-  io:fwrite("Reading Sudoku~nsudoku-samples/"++FileId++".txt~n"),
+  % io:fwrite("Reading Sudoku~nsudoku-samples/"++FileId++".txt~n"),
   Sudoku = read_sudoku("sudoku-samples/"++FileId++".txt"),
-  print_sudoku(Sudoku),
-  io:fwrite("~nSolving...~n"),
+  % print_sudoku(Sudoku),
+  % io:fwrite("~nSolving...~n"),
   solve(Sudoku).
