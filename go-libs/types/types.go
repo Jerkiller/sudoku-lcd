@@ -2,7 +2,6 @@ package types
 
 import (
 	"fmt"
-	"strings"
 	"sudoku/go-libs/array"
 )
 
@@ -11,7 +10,7 @@ type Sudoku struct {
 }
 
 type Move struct {
-	I, J int
+	I, J  int
 	Value uint8
 }
 
@@ -34,10 +33,10 @@ func (self Sudoku) IsComplete() bool {
 }
 
 func (self Sudoku) IsCorrect() bool {
-	three := []int{0,1,2}
+	three := []int{0, 1, 2}
 	for i := range three {
 		for j := range three {
-			box := self.GetBox(i,j)
+			box := self.GetBox(i, j)
 			if array.IsIllegalSequence(box) {
 				return false
 			}
@@ -63,16 +62,20 @@ func (self Sudoku) Copy() (res Sudoku) {
 	return
 }
 
-
 func (self Sudoku) Print() {
-	fmt.Println("|"+strings.Repeat("-", 23)+"|" )
+	fmt.Println("+-------+-------+-------+")
 	for i, row := range self.Board {
 		for j, item := range row {
-			if(j % 3 == 0) { fmt.Printf("| " ) }
-			fmt.Printf("%d ", item )
+			if j%3 == 0 {
+				fmt.Printf("| ")
+			}
+			fmt.Printf("%d ", item)
 		}
-		if(i % 3 == 2) { fmt.Printf("|\n|"+strings.Repeat("-", 23) ) }
-		fmt.Println("|")
+		if i%3 == 2 {
+			fmt.Printf("|\n+-------+-------+-------+\n")
+		} else {
+			fmt.Println("|")
+		}
 	}
 }
 
@@ -91,9 +94,9 @@ func (self Sudoku) GetRow(index int) []uint8 {
 // Get all the elements in a box
 func (self Sudoku) GetBox(i, j int) (box []uint8) {
 	for rowIndex, row := range self.Board {
-		if rowIndex / 3 == i {
+		if rowIndex/3 == i {
 			for colIndex, item := range row {
-				if colIndex / 3 == j {
+				if colIndex/3 == j {
 					box = append(box, item)
 				}
 			}
@@ -102,7 +105,7 @@ func (self Sudoku) GetBox(i, j int) (box []uint8) {
 	return
 }
 
-func (self Sudoku) FindCandidates(i, j int) []uint8 { 
+func (self Sudoku) FindCandidates(i, j int) []uint8 {
 
 	rowsCandidates := array.Difference(
 		array.OneToNine(),
@@ -119,9 +122,15 @@ func (self Sudoku) FindCandidates(i, j int) []uint8 {
 		array.RemoveZeros(self.GetBox(i/3, j/3)),
 	)
 
-	if len(rowsCandidates) == 1 { return rowsCandidates }
-	if len(colsCandidates) == 1 { return colsCandidates }
-	if len(boxCandidates) == 1 { return boxCandidates }
+	if len(rowsCandidates) == 1 {
+		return rowsCandidates
+	}
+	if len(colsCandidates) == 1 {
+		return colsCandidates
+	}
+	if len(boxCandidates) == 1 {
+		return boxCandidates
+	}
 
 	return array.Difference(
 		array.OneToNine(),
